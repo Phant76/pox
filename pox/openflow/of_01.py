@@ -584,6 +584,8 @@ class Connection (EventMixin):
     PortStatsReceived,
     QueueStatsReceived,
     FlowRemoved,
+
+    DataSended, # New event for sending data
   ])
 
   # Globally unique identifier for the Connection instance
@@ -684,6 +686,13 @@ class Connection (EventMixin):
     an OpenFlow controller-to-switch message object from libopenflow.
     """
     if self.disconnected: return
+
+    # Raise a event about sended data.
+    try:
+      self.raiseEvent(DataSended, data)
+    except: # If listeners want to stop a sending - skip it.
+      return
+
     if type(data) is not bytes:
       # There's actually no reason the data has to be an instance of
       # ofp_header, but this check is likely to catch a lot of bugs,

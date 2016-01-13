@@ -89,6 +89,15 @@ class PortStatus (Event):
     self.deleted = ofp.reason == of.OFPPR_DELETE
     self.port = ofp.desc.port_no
 
+
+class DataSended (Event):
+  """
+  Raised when some data thrown to send on switch.
+  """
+  def __init__ (self, data):
+    Event.__init__(self)
+    self.data = data
+
 class FlowRemoved (Event):
   """
   Raised when a flow entry has been removed from a flow table.
