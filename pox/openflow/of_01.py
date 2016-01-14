@@ -690,7 +690,7 @@ class Connection (EventMixin):
     # Raise a event about sended data.
     try:
       self.raiseEvent(DataSended, data)
-    except: # If listeners want to stop a sending - skip it.
+    except AssertionError: # If listeners want to stop a sending - skip it.
       return
 
     if type(data) is not bytes:
